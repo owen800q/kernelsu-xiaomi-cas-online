@@ -24,18 +24,18 @@ jobs:
         sudo apt update && sudo apt upgrade
         sudo apt install git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc unzip bc      
         
-        git clone https://github.com/sm6375-devs/android_kernel_xiaomi_sm6375
+        git clone -b moonstone-s-oss https://github.com/MiCode/Xiaomi_Kernel_OpenSource moonstone-s-oss
         git clone https://github.com/CoolestEnoch/xiaomi-10-ultra-kernel
-        mv android_kernel_xiaomi_sm6375 source
+        mv moonstone-s-oss source
         cd source
         
         sudo cp ../xiaomi-10-ultra-kernel/libdebuginfod.so.1 /usr/lib
         sudo chmod 777 /usr/lib/libdebuginfod.so.1
 
         echo "[+] Append kernel params to kprobes"
-        echo "CONFIG_KPROBES=y" >> arch/arm64/configs/vendor/bengal_QGKI.config
-        echo "CONFIG_HAVE_KPROBES=y" >> arch/arm64/configs/vendor/bengal_QGKI.config
-        echo "CONFIG_KPROBE_EVENTS=y" >> arch/arm64/configs/vendor/bengal_QGKI.config
+        echo "CONFIG_KPROBES=y" >> arch/arm64/configs/defconfig
+        echo "CONFIG_HAVE_KPROBES=y" >> arch/arm64/configs/defconfig
+        echo "CONFIG_KPROBE_EVENTS=y" >> arch/arm64/configs/vendor/defconfig
 
         git clone https://github.com/tiann/KernelSU
         cd KernelSU
@@ -58,7 +58,7 @@ jobs:
       with:
         arch: arm64
         compiler: proton-clang/master/binutils
-        defconfig: veux_defconfig
+        defconfig: defconfig
         image: Image
     - name: Upload Build
       uses: actions/upload-artifact@v3
