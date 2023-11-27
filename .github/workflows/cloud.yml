@@ -28,14 +28,14 @@ jobs:
         git clone https://github.com/CoolestEnoch/xiaomi-10-ultra-kernel
         mv moonstone-s-oss source
         cd source
-        
+        cp ./arch/arm64/configs/vendor/sunstone_QGKI.config ./arch/arm64/configs/vendor/sunstone_qgki_defconfig
         sudo cp ../xiaomi-10-ultra-kernel/libdebuginfod.so.1 /usr/lib
         sudo chmod 777 /usr/lib/libdebuginfod.so.1
 
         echo "[+] Append kernel params to kprobes"
-        echo "CONFIG_KPROBES=y" >> arch/arm64/configs/defconfig
-        echo "CONFIG_HAVE_KPROBES=y" >> arch/arm64/configs/defconfig
-        echo "CONFIG_KPROBE_EVENTS=y" >> arch/arm64/configs/vendor/defconfig
+        echo "CONFIG_KPROBES=y" >> arch/arm64/configs/vendor/sunstone_qgki_defconfig
+        echo "CONFIG_HAVE_KPROBES=y" >> arch/arm64/configs/vendor/sunstone_qgki_defconfig
+        echo "CONFIG_KPROBE_EVENTS=y" >> arch/arm64/configs/vendor/sunstone_qgki_defconfig
 
         git clone https://github.com/tiann/KernelSU
         cd KernelSU
@@ -58,7 +58,7 @@ jobs:
       with:
         arch: arm64
         compiler: proton-clang/master/binutils
-        defconfig: defconfig
+        defconfig: sunstone_qgki_defconfig
         image: Image
     - name: Upload Build
       uses: actions/upload-artifact@v3
